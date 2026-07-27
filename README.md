@@ -1,8 +1,8 @@
 # Restaurant-Recommendation-Analyzer
 
-## Authors
+## Author
 
-- Khushi Bakshi
+- Htoo Aung Kha
 
 ## Project Description
 
