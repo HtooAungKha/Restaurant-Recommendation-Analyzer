@@ -6,7 +6,7 @@
 
 ## Project Description
 
-The Restaurant Rating and Recommendation Analyzer is a web-based Python application that allows users to search for restaurants by city and cuisine. The application will use the Yelp Fusion API to retrieve restaurant information from the internet. Users will be able to view details such as restaurant names, ratings, prices, review counts, cuisine categories, and addresses. The collected restaurant data will be organized and stored in a local SQLite database for later analysis. The program will also generate charts and visualizations to help users compare restaurants and better understand restaurant trends in a selected location.
+The Restaurant Rating and Recommendation Analyzer is a Python web application that helps users search for restaurants using the Yelp Fusion API. Users can search by location and keywords to find restaurants and view information such as ratings, prices, review counts, categories, and addresses. The application retrieves restaurant data from the Yelp API and stores it in a local SQLite database. The stored data will be analyzed to generate charts and visualizations that help users compare restaurants. The goal of this project is to provide a simple and useful tool for exploring restaurants and local dining options.
 
 ## Project Outline and Plan
 
@@ -30,7 +30,7 @@ The project will use a simple web interface built with Flask, HTML, and CSS. The
 
 ## Data Collection and Storage Plan
 
-Restaurant data will be collected from the Yelp Fusion API using Python and the Requests library. The user will enter a city and cuisine type, which will be used as search parameters in the API request. The program will retrieve information such as the restaurant name, Yelp business ID, rating, price level, review count, cuisine category, address, and Yelp URL. The collected data will be cleaned and converted into a consistent format before being stored. A local SQLite database will be used to save the restaurant search results so that the data can be accessed and analyzed later. The Yelp business ID will be used as a unique identifier to help prevent duplicate restaurant records. The Yelp API key will be stored in an environment variable and will not be uploaded to GitHub.
+Restaurant data is collected from the Yelp Fusion API using Python and the Requests library. Users enter a location and search keywords, and the application retrieves restaurant information such as the restaurant name, Yelp business ID, rating, price level, review count, category, address, and Yelp URL. The data is converted into Restaurant objects before being stored in a local SQLite database. The Yelp business ID is used as the primary key to prevent duplicate records. The API key is stored in a `.env` file and is not uploaded to GitHub.
 
 
 
@@ -56,16 +56,18 @@ The restaurant data stored in the SQLite database will be loaded into Pandas Dat
 
 ## Main Features
 
-- Search for restaurants by city
-- Filter restaurants by cuisine
+- Search restaurants by location
+- Search restaurants using keywords
+- Choose the number of search results
 - View restaurant ratings
 - View restaurant price levels
 - View restaurant review counts
+- View restaurant categories
 - View restaurant addresses
-- Save restaurant information to a local database
-- Analyze restaurant ratings and review counts
+- Save restaurant information to a local SQLite database
+- Analyze restaurant data
 - Display charts and graphs
-- Use a simple web interface with multiple pages
+- Use a simple web interface built with Flask
 
 ## Expected Visualizations
 
@@ -89,29 +91,31 @@ The restaurant data stored in the SQLite database will be loaded into Pandas Dat
 
 ## Planned Project Structure
 
+## Planned Project Structure
+
 ```text
-restaurant-rating-analyzer/
+restaurant-recommendation-analyzer/
 │
 ├── app.py
+├── api.py
+├── config.py
+├── restaurant.py
 ├── database.py
 ├── analysis.py
 ├── requirements.txt
 ├── README.md
 ├── LICENSE
 ├── .gitignore
+├── .env
+│
+├── data/
+│   └── restaurants.db
 │
 ├── templates/
-│   ├── index.html
-│   ├── results.html
-│   └── statistics.html
 │
-├── static/
-│   └── style.css
-│
-└── data/
-    └── restaurants.db
-
+└── static/
 ```
+
 ## Installation
 
 1. Clone this repository.
@@ -162,45 +166,42 @@ YELP_API_KEY=your_api_key_here
 
 ## How to Use
 
-1. Start the Flask application.
+1. Run the application.
 
 ```bash
-python3 app.py
+python app.py
 ```
 
-2. Open your web browser and go to:
+2. Enter a location.
 
-```
-http://127.0.0.1:5000
-```
+3. Enter what you want to search for (for example: ramen, coffee, pizza, or sushi).
 
-3. Enter a city and choose a cuisine.
+4. Enter the number of results you want to retrieve, or press **Enter** to use the default value of **30**.
 
-4. Click **Search** to retrieve restaurant information from the Yelp Fusion API.
+5. The application will retrieve restaurant information from the Yelp Fusion API.
 
-5. View restaurant details including:
-   - Name
-   - Rating
-   - Price
-   - Review count
-   - Cuisine
-   - Address
-
-6. Save the search results to the SQLite database.
-
-7. Visit the **Statistics** page to view charts and summaries based on the stored restaurant data.
+6. Restaurant information will be saved to the SQLite database and displayed in the terminal.
 
 ---
 
-## Future Improvements
+## Current Progress
 
-- Add more search filters such as price range, rating, and "Open Now."
-- Display restaurant locations on an interactive map.
-- Allow users to save favorite restaurants.
-- Export restaurant data to a CSV file.
-- Add user accounts and search history.
+### ✅ Completed
 
----
+- Set up the project structure
+- Connected to the Yelp Fusion API
+- Retrieved restaurant data from user searches
+- Designed the project using object-oriented programming (OOP)
+- Created a `Restaurant` class
+- Stored restaurant data in a SQLite database
+- Configured environment variables using a `.env` file
+
+### 🚧 In Progress
+
+- Building the Flask web interface
+- Displaying search results in a web page
+- Analyzing restaurant data with Pandas
+- Creating charts and visualizations with Matplotlib
 
 ## License
 
