@@ -30,6 +30,7 @@ def main():
         print("No restaurants were found.")
         return
 
+    database.clear_database()
     database.save_restaurants(restaurants)
 
     print(f"\nResults for '{keyword}' near {location}\n")
