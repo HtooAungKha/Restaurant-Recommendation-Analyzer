@@ -89,3 +89,15 @@ class RestaurantDatabase:
         connection.close()
 
         return restaurants
+
+    def clear_database(self):
+        
+        connection = self.connect()
+        cursor = connection.cursor()
+
+        cursor.execute("DELETE FROM restaurants")
+
+        connection.commit()
+        connection.close()
+
+        print("Database cleared.")

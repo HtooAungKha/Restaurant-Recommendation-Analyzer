@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant Results</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{{ url_for('index') }}" class="logo">
+                DineFinder
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="#">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="results-page">
+
+        <section class="results-header">
+
+            <div>
+                <p class="page-label">Search Results</p>
+
+                <h1>
+                    {{ keyword or "Restaurants" }}
+                    near {{ location }}
+                </h1>
+
+                <p class="results-summary">
+                    Found {{ restaurants|length }} restaurant results
+                </p>
+            </div>
+
+            <a href="{{ url_for('index') }}" class="secondary-button">
+                New Search
+            </a>
+
+        </section>
+
+        <section class="results-card">
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Restaurant</th>
+                            <th>Rating</th>
+                            <th>Price</th>
+                            <th>Reviews</th>
+                            <th>Category</th>
+                            <th>Address</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for restaurant in restaurants %}
+                        <tr>
+
+                            <td>
+                                <div class="restaurant-name">
+                                    {{ restaurant.name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="rating-badge">
+                                    ★ {{ restaurant.rating }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="price-badge">
+                                    {{ restaurant.price }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ "{:,}".format(restaurant.review_count) }}
+                            </td>
+
+                            <td>
+                                <span class="category-badge">
+                                    {{ restaurant.category }}
+                                </span>
+                            </td>
+
+                            <td class="address-cell">
+                                {{ restaurant.address }}
+                            </td>
+
+                            <td>
+                                <a href="{{ restaurant.yelp_url }}" target="_blank" rel="noopener noreferrer"
+                                    class="view-button">
+                                    View
+                                </a>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Restaurant Recommendation Analyzer · CS 122 Project
+    </footer>
+
+</body>
+
+</html>
