@@ -1,110 +1,249 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}
+Find Restaurants | DineFinder
+{% endblock %}
 
-    <title>Restaurant Recommendation Analyzer</title>
+{% block content %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+<section class="home-page">
 
-<body>
+    <div class="hero-section">
 
-    <nav class="navbar">
-        <div class="nav-content">
-            <a href="{{ url_for('index') }}" class="logo">
-                DineFinder
-            </a>
+        <p class="eyebrow">
+            Restaurant discovery / CS 122
+        </p>
 
-            <div class="nav-links">
-                <a href="{{ url_for('index') }}" class="active">Home</a>
-                <a href="#">Statistics</a>
-            </div>
+        <h1>
+            Find restaurants
+            <br>
+            worth talking about.
+        </h1>
+
+        <div class="hero-bottom">
+
+            <p class="hero-description">
+                Search by location and keyword.
+                Compare ratings, prices, reviews,
+                categories, and addresses in one place.
+            </p>
+
+            <p class="hero-number">
+                01
+            </p>
+
         </div>
-    </nav>
 
-    <main class="home-page">
+    </div>
 
-        <section class="hero">
-            <div class="hero-badge">
-                Restaurant Recommendation Analyzer
+    {% if error %}
+    <div class="error-message">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <section class="search-panel">
+
+        <form method="POST" class="search-form">
+
+            <div class="search-field">
+
+                <span class="field-number">
+                    01
+                </span>
+
+                <label for="location">
+                    Location
+                </label>
+
+                <input type="text" id="location" name="location" placeholder="San Jose, CA"
+                    value="{{ request.form.get('location', '') }}" required>
+
             </div>
 
-            <h1>
-                Find your next
-                <span>favorite restaurant</span>
-            </h1>
+            <div class="search-field">
+
+                <span class="field-number">
+                    02
+                </span>
+
+                <label for="keyword">
+                    Search keyword
+                </label>
+
+                <input type="text" id="keyword" name="keyword" placeholder="Ramen, sushi, coffee..."
+                    value="{{ request.form.get('keyword', '') }}">
+
+            </div>
+
+            <div class="search-field">
+
+                <span class="field-number">
+                    03
+                </span>
+
+                <label for="limit">
+                    Number of results
+                </label>
+
+                <select id="limit" name="limit">
+                    <option value="10">
+                        10
+                    </option>
+
+                    <option value="20">
+                        20
+                    </option>
+
+                    <option value="30" selected>
+                        30
+                    </option>
+
+                    <option value="40">
+                        40
+                    </option>
+
+                    <option value="50">
+                        50
+                    </option>
+                </select>
+
+            </div>
+
+            <button type="submit" class="search-button">
+                <span>
+                    Search restaurants
+                </span>
+
+                <span class="button-arrow">
+                    ↗
+                </span>
+            </button>
+
+        </form>
+
+    </section>
+
+    <section class="popular-searches">
+
+        <div class="section-heading-row">
+
+            <p class="section-label">
+                Popular searches
+            </p>
+
+            <p class="section-number">
+                02
+            </p>
+
+        </div>
+
+        <div class="search-chip-list">
+
+            <button type="button" class="search-chip">
+                Ramen
+            </button>
+
+            <button type="button" class="search-chip">
+                Sushi
+            </button>
+
+            <button type="button" class="search-chip">
+                Pizza
+            </button>
+
+            <button type="button" class="search-chip">
+                Coffee
+            </button>
+
+            <button type="button" class="search-chip">
+                Brunch
+            </button>
+
+            <button type="button" class="search-chip">
+                Vegan
+            </button>
+
+        </div>
+
+    </section>
+
+    <section class="process-section">
+
+        <div class="process-item">
+
+            <p class="process-number">
+                01
+            </p>
+
+            <h2>
+                Search
+            </h2>
 
             <p>
-                Search local restaurants by location and keyword.
-                Compare ratings, prices, reviews, and categories.
+                Enter a location and choose
+                what kind of restaurant you want.
             </p>
-        </section>
 
-        <section class="search-card">
+        </div>
 
-            {% if error %}
-            <div class="error-message">
-                {{ error }}
-            </div>
-            {% endif %}
+        <div class="process-item">
 
-            <form method="POST" class="search-form">
+            <p class="process-number">
+                02
+            </p>
 
-                <div class="form-group">
-                    <label for="location">Location</label>
+            <h2>
+                Compare
+            </h2>
 
-                    <input type="text" id="location" name="location" placeholder="San Jose, CA"
-                        value="{{ request.form.get('location', '') }}" required>
-                </div>
+            <p>
+                Review ratings, prices,
+                categories, and review counts.
+            </p>
 
-                <div class="form-group">
-                    <label for="keyword">What are you looking for?</label>
+        </div>
 
-                    <input type="text" id="keyword" name="keyword" placeholder="Ramen, coffee, sushi, brunch..."
-                        value="{{ request.form.get('keyword', '') }}">
-                </div>
+        <div class="process-item">
 
-                <div class="form-group small-group">
-                    <label for="limit">Results</label>
+            <p class="process-number">
+                03
+            </p>
 
-                    <select id="limit" name="limit">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30" selected>30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
+            <h2>
+                Discover
+            </h2>
 
-                <button type="submit" class="search-button">
-                    Search Restaurants
-                </button>
+            <p>
+                Open the Yelp page and choose
+                the place that fits your needs.
+            </p>
 
-            </form>
-        </section>
+        </div>
 
-        <section class="examples">
-            <p>Popular searches</p>
+    </section>
 
-            <div class="example-list">
-                <span>Ramen</span>
-                <span>Pizza</span>
-                <span>Coffee</span>
-                <span>Sushi</span>
-                <span>Brunch</span>
-                <span>Vegan</span>
-            </div>
-        </section>
+</section>
 
-    </main>
+{% endblock %}
 
-    <footer>
-        Restaurant Recommendation Analyzer · CS 122 Project
-    </footer>
+{% block scripts %}
 
-</body>
+<script>
+    const keywordInput =
+        document.getElementById("keyword");
 
-</html>
+    const searchChips =
+        document.querySelectorAll(".search-chip");
+
+    searchChips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+            keywordInput.value =
+                chip.textContent.trim();
+
+            keywordInput.focus();
+        });
+    });
+</script>
+
+{% endblock %}
