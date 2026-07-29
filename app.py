@@ -1,48 +1,61 @@
+from flask import Flask, render_template, request
+
 from api import YelpAPI
 from database import RestaurantDatabase
 
 
-def main():
-    api = YelpAPI()
-    database = RestaurantDatabase()
+app = Flask(__name__)
 
-    location = input("Enter a location: ").strip()
-    keyword = input("What would you like to find? ").strip()
+api = YelpAPI()
+database = RestaurantDatabase()
 
-    limit_input = input("How many results? (Press Enter for 30): ").strip()
 
-    if limit_input == "":
-        limit = 30
-    else:
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        location = request.form.get("location", "").strip()
+        keyword = request.form.get("keyword", "").strip()
+        limit_text = request.form.get("limit", "30").strip()
+
+        if not location:
+            return render_template(
+                "index.html",
+                error="Please enter a location."
+            )
+
         try:
-            limit = int(limit_input)
+            limit = int(limit_text)
         except ValueError:
-            print("Invalid number. Using the default of 30.")
             limit = 30
 
-    restaurants = api.search_restaurants(
-        location=location,
-        keyword=keyword,
-        limit=limit,
-    )
+        if limit < 1:
+            limit = 1
+        elif limit > 50:
+            limit = 50
 
-    if not restaurants:
-        print("No restaurants were found.")
-        return
+        restaurants = api.search_restaurants(
+            location=location,
+            keyword=keyword,
+            limit=limit,
+        )
 
-    database.clear_database()
-    database.save_restaurants(restaurants)
+        if not restaurants:
+            return render_template(
+                "index.html",
+                error="No restaurants were found."
+            )
 
-    print(f"\nResults for '{keyword}' near {location}\n")
+        database.save_restaurants(restaurants)
 
-    for restaurant in restaurants:
-        print(restaurant)
-        print(f"Category: {restaurant.category}")
-        print(f"Address: {restaurant.address}")
-        print("-" * 50)
+        return render_template(
+            "results.html",
+            restaurants=restaurants,
+            location=location,
+            keyword=keyword,
+        )
 
-    print("\nRestaurants were saved to data/restaurants.db")
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)

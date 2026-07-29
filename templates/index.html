@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant Recommendation Analyzer</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{{ url_for('index') }}" class="logo">
+                DineFinder
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="active">Home</a>
+                <a href="#">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="home-page">
+
+        <section class="hero">
+            <div class="hero-badge">
+                Restaurant Recommendation Analyzer
+            </div>
+
+            <h1>
+                Find your next
+                <span>favorite restaurant</span>
+            </h1>
+
+            <p>
+                Search local restaurants by location and keyword.
+                Compare ratings, prices, reviews, and categories.
+            </p>
+        </section>
+
+        <section class="search-card">
+
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="POST" class="search-form">
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+
+                    <input type="text" id="location" name="location" placeholder="San Jose, CA"
+                        value="{{ request.form.get('location', '') }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword">What are you looking for?</label>
+
+                    <input type="text" id="keyword" name="keyword" placeholder="Ramen, coffee, sushi, brunch..."
+                        value="{{ request.form.get('keyword', '') }}">
+                </div>
+
+                <div class="form-group small-group">
+                    <label for="limit">Results</label>
+
+                    <select id="limit" name="limit">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30" selected>30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="search-button">
+                    Search Restaurants
+                </button>
+
+            </form>
+        </section>
+
+        <section class="examples">
+            <p>Popular searches</p>
+
+            <div class="example-list">
+                <span>Ramen</span>
+                <span>Pizza</span>
+                <span>Coffee</span>
+                <span>Sushi</span>
+                <span>Brunch</span>
+                <span>Vegan</span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        Restaurant Recommendation Analyzer · CS 122 Project
+    </footer>
+
+</body>
+
+</html>
