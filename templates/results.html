@@ -1,128 +1,217 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}
+Search Results | DineFinder
+{% endblock %}
 
-    <title>Restaurant Results</title>
+{% block content %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+<section class="results-page">
 
-<body>
+    <header class="results-hero">
 
-    <nav class="navbar">
-        <div class="nav-content">
-            <a href="{{ url_for('index') }}" class="logo">
-                DineFinder
-            </a>
+        <div>
 
-            <div class="nav-links">
-                <a href="{{ url_for('index') }}">Home</a>
-                <a href="#">Statistics</a>
-            </div>
+            <p class="eyebrow">
+                Search results / Restaurant discovery
+            </p>
+
+            <h1>
+                {{ keyword or "Restaurants" }}
+                <br>
+                near {{ location }}
+            </h1>
+
         </div>
-    </nav>
 
-    <main class="results-page">
+        <div class="results-meta">
 
-        <section class="results-header">
+            <p>
+                {{ restaurants|length }}
+                restaurants found
+            </p>
 
-            <div>
-                <p class="page-label">Search Results</p>
-
-                <h1>
-                    {{ keyword or "Restaurants" }}
-                    near {{ location }}
-                </h1>
-
-                <p class="results-summary">
-                    Found {{ restaurants|length }} restaurant results
-                </p>
-            </div>
-
-            <a href="{{ url_for('index') }}" class="secondary-button">
-                New Search
+            <a href="{{ url_for('index') }}" class="outline-button">
+                New search
             </a>
 
-        </section>
+        </div>
 
-        <section class="results-card">
+    </header>
 
-            <div class="table-wrapper">
+    <section class="results-toolbar">
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Restaurant</th>
-                            <th>Rating</th>
-                            <th>Price</th>
-                            <th>Reviews</th>
-                            <th>Category</th>
-                            <th>Address</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+        <div>
 
-                    <tbody>
-                        {% for restaurant in restaurants %}
-                        <tr>
+            <p class="section-label">
+                Compare restaurants
+            </p>
 
-                            <td>
-                                <div class="restaurant-name">
-                                    {{ restaurant.name }}
-                                </div>
-                            </td>
+            <p class="toolbar-description">
+                Sort results by rating or review count.
+            </p>
 
-                            <td>
-                                <span class="rating-badge">
-                                    ★ {{ restaurant.rating }}
-                                </span>
-                            </td>
+        </div>
 
-                            <td>
-                                <span class="price-badge">
-                                    {{ restaurant.price }}
-                                </span>
-                            </td>
+        <div class="sort-wrapper">
 
-                            <td>
-                                {{ "{:,}".format(restaurant.review_count) }}
-                            </td>
+            <label for="sort-results">
+                Sort by
+            </label>
 
-                            <td>
-                                <span class="category-badge">
-                                    {{ restaurant.category }}
-                                </span>
-                            </td>
+            <select id="sort-results">
+                <option value="default">
+                    Default order
+                </option>
 
-                            <td class="address-cell">
-                                {{ restaurant.address }}
-                            </td>
+                <option value="rating">
+                    Highest rating
+                </option>
 
-                            <td>
-                                <a href="{{ restaurant.yelp_url }}" target="_blank" rel="noopener noreferrer"
-                                    class="view-button">
-                                    View
-                                </a>
-                            </td>
+                <option value="reviews">
+                    Most reviews
+                </option>
+            </select>
 
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        </div>
+
+    </section>
+
+    <section class="restaurant-grid" id="restaurant-grid">
+
+        {% for restaurant in restaurants %}
+
+        <article class="restaurant-card" data-rating="{{ restaurant.rating }}"
+            data-reviews="{{ restaurant.review_count }}">
+
+            <div class="restaurant-card-header">
+
+                <p class="card-index">
+                    {{ "%02d"|format(loop.index) }}
+                </p>
+
+                <p class="restaurant-category">
+                    {{ restaurant.category }}
+                </p>
 
             </div>
 
-        </section>
+            <div class="restaurant-title-row">
 
-    </main>
+                <h2>
+                    {{ restaurant.name }}
+                </h2>
 
-    <footer>
-        Restaurant Recommendation Analyzer · CS 122 Project
-    </footer>
+                <span class="rating">
+                    ★ {{ restaurant.rating }}
+                </span>
 
-</body>
+            </div>
 
-</html>
+            <div class="restaurant-information">
+
+                <div class="information-item">
+
+                    <span class="information-label">
+                        Price
+                    </span>
+
+                    <span class="price-value">
+                        {{ restaurant.price }}
+                    </span>
+
+                </div>
+
+                <div class="information-item">
+
+                    <span class="information-label">
+                        Reviews
+                    </span>
+
+                    <span>
+                        {{ "{:,}".format(
+                        restaurant.review_count
+                        ) }}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="address-block">
+
+                <p class="information-label">
+                    Address
+                </p>
+
+                <p class="restaurant-address">
+                    {{ restaurant.address }}
+                </p>
+
+            </div>
+
+            <a href="{{ restaurant.yelp_url }}" target="_blank" rel="noopener noreferrer" class="restaurant-link">
+                <span>
+                    View on Yelp
+                </span>
+
+                <span>
+                    ↗
+                </span>
+            </a>
+
+        </article>
+
+        {% endfor %}
+
+    </section>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    const sortSelect =
+        document.getElementById("sort-results");
+
+    const restaurantGrid =
+        document.getElementById("restaurant-grid");
+
+    sortSelect.addEventListener(
+        "change",
+        function () {
+
+            const cards = Array.from(
+                restaurantGrid.querySelectorAll(
+                    ".restaurant-card"
+                )
+            );
+
+            if (sortSelect.value === "rating") {
+                cards.sort(function (first, second) {
+                    return (
+                        Number(second.dataset.rating) -
+                        Number(first.dataset.rating)
+                    );
+                });
+            }
+
+            if (sortSelect.value === "reviews") {
+                cards.sort(function (first, second) {
+                    return (
+                        Number(second.dataset.reviews) -
+                        Number(first.dataset.reviews)
+                    );
+                });
+            }
+
+            cards.forEach(function (card) {
+                restaurantGrid.appendChild(card);
+            });
+        }
+    );
+</script>
+
+{% endblock %}
