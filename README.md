@@ -183,7 +183,7 @@ python app.py
 
 ## Current Progress
 
-### ✅ Completed
+### Completed
 
 - Set up the project structure
 - Connected to the Yelp Fusion API
@@ -193,7 +193,7 @@ python app.py
 - Stored restaurant data in a SQLite database
 - Configured environment variables using a `.env` file
 
-### 🚧 In Progress
+### In Progress
 
 - Building the Flask web interface
 - Displaying search results in a web page
