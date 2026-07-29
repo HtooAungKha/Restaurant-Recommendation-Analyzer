@@ -82,14 +82,11 @@ The restaurant data stored in the SQLite database will be loaded into Pandas Dat
 - Yelp Fusion API
 - SQLite
 - Pandas
-- Numpy
 - Matplotlib
 - Seaborn
 - Requests
 - HTML
 - CSS
-
-## Planned Project Structure
 
 ## Planned Project Structure
 
@@ -124,7 +121,7 @@ restaurant-recommendation-analyzer/
 git clone https://github.com/HtooAungKha/Restaurant-Recommendation-Analyzer.git
 ```
 
-2. Clone this repository.
+2. Go to the project folder.
 
 ```bash
 cd Restaurant-Recommendation-Analyzer
