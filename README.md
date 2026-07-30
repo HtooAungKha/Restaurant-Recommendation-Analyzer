@@ -38,9 +38,6 @@ Restaurant data is collected from the Yelp Fusion API using Python and the Reque
 
 The restaurant data stored in the SQLite database will be loaded into Pandas DataFrames for analysis. The analysis will compare restaurant ratings, cuisine categories, price levels, and review counts. Pandas will be used to calculate values such as average ratings by cuisine, the number of restaurants in each price category, and the restaurants with the highest number of reviews. Matplotlib and Seaborn will be used to create visualizations that make the results easier to understand. The planned visualizations include a bar chart showing average ratings by cuisine, a bar chart showing the distribution of restaurant price levels, and a horizontal bar chart showing the top ten restaurants by review count. The analysis results and charts will be displayed on the statistics page of the Flask application.
 
-## Responsibilities
-
-### Htoo Aung Kha
 
 - Connect the application to the Yelp Fusion API
 - Retrieve restaurant data
@@ -59,15 +56,13 @@ The restaurant data stored in the SQLite database will be loaded into Pandas Dat
 - Search restaurants by location
 - Search restaurants using keywords
 - Choose the number of search results
-- View restaurant ratings
-- View restaurant price levels
-- View restaurant review counts
-- View restaurant categories
-- View restaurant addresses
-- Save restaurant information to a local SQLite database
-- Analyze restaurant data
-- Display charts and graphs
-- Use a simple web interface built with Flask
+- View restaurant names, ratings, prices, categories, review counts, and addresses
+- Automatically save restaurant information to a SQLite database
+- Prevent duplicate restaurants using Yelp Business IDs
+- View restaurant statistics
+- Display charts for restaurant analysis
+- Responsive web interface built with Flask
+- Object-oriented project structure
 
 ## Expected Visualizations
 
@@ -95,22 +90,27 @@ restaurant-recommendation-analyzer/
 │
 ├── app.py
 ├── api.py
-├── config.py
-├── restaurant.py
-├── database.py
 ├── analysis.py
+├── config.py
+├── database.py
+├── restaurant.py
 ├── requirements.txt
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── .env
 │
 ├── data/
 │   └── restaurants.db
 │
-├── templates/
+├── static/
+│   ├── style.css
+│   └── charts/
 │
-└── static/
+└── templates/
+    ├── base.html
+    ├── index.html
+    ├── results.html
+    └── statistics.html
 ```
 
 ## Installation
@@ -127,7 +127,7 @@ git clone https://github.com/HtooAungKha/Restaurant-Recommendation-Analyzer.git
 cd Restaurant-Recommendation-Analyzer
 ```
 
-3. Create a virtual environment (optional but recommended).
+3. Create a virtual environment.
 
 ```bash
 python3 -m venv venv
@@ -169,37 +169,38 @@ YELP_API_KEY=your_api_key_here
 python app.py
 ```
 
-2. Enter a location.
+2. Open your browser and visit:
 
-3. Enter what you want to search for (for example: ramen, coffee, pizza, or sushi).
+```
+http://127.0.0.1:5000
+```
 
-4. Enter the number of results you want to retrieve, or press **Enter** to use the default value of **30**.
+3. Enter a location.
 
-5. The application will retrieve restaurant information from the Yelp Fusion API.
+4. Enter search keywords (for example: ramen, coffee, sushi, or pizza).
 
-6. Restaurant information will be saved to the SQLite database and displayed in the terminal.
+5. Enter the number of restaurants to display (or press Enter to use the default value of 30).
 
----
+6. Click **Search**.
 
-## Current Progress
+7. Browse the restaurant results.
 
-### Completed
-
-- Set up the project structure
-- Connected to the Yelp Fusion API
-- Retrieved restaurant data from user searches
-- Designed the project using object-oriented programming (OOP)
-- Created a `Restaurant` class
-- Stored restaurant data in a SQLite database
-- Configured environment variables using a `.env` file
-
-### In Progress
-
-- Building the Flask web interface
-- Displaying search results in a web page
-- Analyzing restaurant data with Pandas
-- Creating charts and visualizations with Matplotlib
+8. Visit the **Statistics** page to view charts and restaurant analysis.
 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more information.
+
+## Screenshots
+
+### Home Page
+
+![alt text](Screenshots\home page.png)
+
+### Search Results
+
+![alt text](Screenshots\search results.png)
+
+### Statistics Dashboard
+
+![alt text](Screenshots\dashboard.png)
