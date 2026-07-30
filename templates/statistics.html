@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}
+Statistics | DineFinder
+{% endblock %}
+
+{% block content %}
+
+<section class="statistics-page">
+
+    <header class="statistics-hero">
+
+        <div>
+            <p class="eyebrow">
+                Restaurant analysis / Current database
+            </p>
+
+            <h1>
+                Search data,
+                <br>
+                made easier to understand.
+            </h1>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="outline-button">
+            New search
+        </a>
+
+    </header>
+
+    {% if total_restaurants == 0 %}
+
+    <section class="empty-statistics">
+
+        <p class="section-label">
+            No restaurant data available
+        </p>
+
+        <h2>
+            Search for restaurants first.
+        </h2>
+
+        <p>
+            The statistics page uses restaurant data
+            saved in the SQLite database.
+        </p>
+
+        <a href="{{ url_for('index') }}" class="dark-button">
+            Start a search
+        </a>
+
+    </section>
+
+    {% else %}
+
+    <section class="stat-grid">
+
+        <article class="stat-card">
+
+            <p class="stat-number">
+                01
+            </p>
+
+            <p class="stat-label">
+                Total restaurants
+            </p>
+
+            <h2>
+                {{ total_restaurants }}
+            </h2>
+
+        </article>
+
+        <article class="stat-card">
+
+            <p class="stat-number">
+                02
+            </p>
+
+            <p class="stat-label">
+                Average rating
+            </p>
+
+            <h2>
+                {{ average_rating }}
+            </h2>
+
+        </article>
+
+        <article class="stat-card">
+
+            <p class="stat-number">
+                03
+            </p>
+
+            <p class="stat-label">
+                Average reviews
+            </p>
+
+            <h2>
+                {{ "{:,.0f}".format(average_reviews) }}
+            </h2>
+
+        </article>
+
+        <article class="stat-card">
+
+            <p class="stat-number">
+                04
+            </p>
+
+            <p class="stat-label">
+                Highest rated
+            </p>
+
+            {% if highest_rated is not none %}
+
+            <h2 class="restaurant-stat-name">
+                {{ highest_rated["name"] }}
+            </h2>
+
+            <p class="stat-detail">
+                Rating {{ highest_rated["rating"] }}
+                ·
+                {{ "{:,}".format(
+                highest_rated["review_count"]
+                ) }}
+                reviews
+            </p>
+
+            {% else %}
+
+            <h2>
+                Not available
+            </h2>
+
+            {% endif %}
+
+        </article>
+
+    </section>
+
+    <section class="chart-section">
+
+        <div class="section-heading-row">
+
+            <p class="section-label">
+                Restaurant analysis
+            </p>
+
+            <p class="section-number">
+                02
+            </p>
+
+        </div>
+
+        {% if charts_created %}
+
+        <div class="chart-grid">
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <p class="chart-number">
+                        01
+                    </p>
+
+                    <div>
+                        <h2>
+                            Average rating by category
+                        </h2>
+
+                        <p>
+                            Compares the average Yelp rating
+                            for the ten highest-rated categories.
+                        </p>
+                    </div>
+
+                </div>
+
+                <img src="{{ url_for(
+                        'static',
+                        filename='charts/rating_by_category.png'
+                    ) }}" alt="Average rating by category chart">
+
+            </article>
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <p class="chart-number">
+                        02
+                    </p>
+
+                    <div>
+                        <h2>
+                            Price distribution
+                        </h2>
+
+                        <p>
+                            Shows how many restaurants appear
+                            in each Yelp price level.
+                        </p>
+                    </div>
+
+                </div>
+
+                <img src="{{ url_for(
+                        'static',
+                        filename='charts/price_distribution.png'
+                    ) }}" alt="Restaurant price distribution chart">
+
+            </article>
+
+            <article class="chart-card chart-card-wide">
+
+                <div class="chart-heading">
+
+                    <p class="chart-number">
+                        03
+                    </p>
+
+                    <div>
+                        <h2>
+                            Top restaurants by reviews
+                        </h2>
+
+                        <p>
+                            Displays the ten restaurants with
+                            the largest number of Yelp reviews.
+                        </p>
+                    </div>
+
+                </div>
+
+                <img src="{{ url_for(
+                        'static',
+                        filename='charts/top_reviewed.png'
+                    ) }}" alt="Top restaurants by review count chart">
+
+            </article>
+
+        </div>
+
+        {% else %}
+
+        <div class="analysis-message">
+
+            <h2>
+                No charts available.
+            </h2>
+
+            <p>
+                Search for restaurants first so the application
+                has data to analyze.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
