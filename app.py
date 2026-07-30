@@ -2,13 +2,13 @@ from flask import Flask, render_template, request
 
 from api import YelpAPI
 from database import RestaurantDatabase
-
+from analysis import RestaurantAnalysis
 
 app = Flask(__name__)
 
 api = YelpAPI()
 database = RestaurantDatabase()
-
+analysis = RestaurantAnalysis()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -56,6 +56,22 @@ def index():
 
     return render_template("index.html")
 
+@app.route("/statistics")
+def statistics():
+    total_restaurants = analysis.total_restaurants()
+    average_rating = analysis.average_rating()
+    average_reviews = analysis.average_reviews()
+    highest_rated = analysis.highest_rated_restaurant()
+    charts_created = analysis.generate_charts()
+
+    return render_template(
+        "statistics.html",
+        total_restaurants=total_restaurants,
+        average_rating=average_rating,
+        average_reviews=average_reviews,
+        highest_rated=highest_rated,
+        charts_created=charts_created,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
