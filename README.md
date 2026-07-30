@@ -195,12 +195,12 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 ### Home Page
 
-![alt text](Screenshots\home page.png)
+![Home Page](Screenshots/home-page.png)
 
 ### Search Results
 
-![alt text](Screenshots\search results.png)
+![Search Results](Screenshots/search-results.png)
 
 ### Statistics Dashboard
 
-![alt text](Screenshots\dashboard.png)
+![Statistics Dashboard](Screenshots/dashboard.png)
